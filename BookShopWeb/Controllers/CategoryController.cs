@@ -30,9 +30,18 @@ namespace BookShopWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category objCategory)
         {
-            m_Db.Categories.Add(objCategory);
-            m_Db.SaveChanges();
-            return RedirectToAction("Index");
+            //if (objCategory.Name == objCategory.DisplayOrder.ToString()) 
+            //{
+            //    ModelState.AddModelError("CustomError", "The DisplayOrder can't exactly match the Name!");//view içerisinde asp-validation-summary tag helper eklediğimiz için kullanabiliyoruz.
+            //    //ModelState.AddModelError("Name", "The DisplayOrder can't exactly match the Name!"); //Yukarıda CustomError vermesiyle birlikte Name field' ının altında da custom summary görünmesini istersek.
+            //}
+            if (ModelState.IsValid)
+            {
+                m_Db.Categories.Add(objCategory);
+                m_Db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(objCategory);
         }
     }
 }
