@@ -82,6 +82,39 @@ namespace BookShopWeb.Controllers
             return View(objCategory);
         }
 
+        //Get
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var categoryFromDb = m_Db.Categories.Find(id); //Id' nin primary key olduğunu bildiğimiz durumlarda
+            //var categoryFromDbFirst = m_Db.Categories.FirstOrDefault(x => x.Id == id); //İlk bulduğu id' yi getirir, birden fazla varsa exception üretmez.
+            //var categoryFromDbSingle = m_Db.Categories.SingleOrDefault(x => x.Id == id); //Birden fazla id varsa exception fırlatır.
 
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        //Post
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            var categoryFromDb = m_Db.Categories.Find(id);
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            m_Db.Categories.Remove(categoryFromDb);
+            m_Db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
