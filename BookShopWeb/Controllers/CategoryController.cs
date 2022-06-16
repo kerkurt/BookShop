@@ -39,6 +39,7 @@ namespace BookShopWeb.Controllers
             {
                 m_Db.Categories.Add(objCategory);
                 m_Db.SaveChanges();
+                TempData["Success"] = "Category created successfully!"; // ASP.NET' teki Session mantığıyle çalışır, veri sadece tek request için tutulur, sayfa refresh olduğunda kaybolur.
                 return RedirectToAction("Index");
             }
             return View(objCategory);
@@ -77,6 +78,7 @@ namespace BookShopWeb.Controllers
             {
                 m_Db.Categories.Update(objCategory);
                 m_Db.SaveChanges();
+                TempData["Success"] = "Category updated successfully!"; // ASP.NET' teki Session mantığıyle çalışır, veri sadece tek request için tutulur, sayfa refresh olduğunda kaybolur.
                 return RedirectToAction("Index");
             }
             return View(objCategory);
@@ -114,6 +116,7 @@ namespace BookShopWeb.Controllers
 
             m_Db.Categories.Remove(categoryFromDb);
             m_Db.SaveChanges();
+            TempData["Success"] = "Category deleted successfully!"; // ASP.NET' teki Session mantığıyle çalışır, veri sadece tek request için tutulur, sayfa refresh olduğunda kaybolur.
             return RedirectToAction("Index");
         }
     }
